@@ -1,4 +1,4 @@
-{% snapshot supply_chain_scd2_check %}
+{% snapshot supply_chain_scd2_check2 %}
     {{
         config(
             target_schema='SILVER_SCHEMA',
@@ -13,7 +13,8 @@
                 "TOTAL_COST", 
                 "STATUS", 
                 "DELIVERY_DATE"
-            ]
+            ],
+            hard_deletes = 'new_record'
         )
     }}
 

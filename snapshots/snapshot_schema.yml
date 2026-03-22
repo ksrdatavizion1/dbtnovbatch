@@ -1,0 +1,26 @@
+snapshots:
+  - name: suply_chain_scd2
+    relation: source('raw_data', 'scd2')
+    config:
+      database: DBT_LABS
+      schema : SILVER_SCHEMA
+      unique_key : 'ORDER_ID'
+      strategy : 'timestamp'
+      updated_at : 'UPDATED_AT'
+  - name : supply_chain_check_scd2
+    relation: source('raw_data', 'scd2')
+    config: 
+      database: DBT_LABS
+      schema : SILVER_SCHEMA
+      unique_key : 'ORDER_ID'
+      strategy : check
+      hard_deletes: new_record
+      check_cols : [
+                "SUPPLIER_NAME", 
+                "PRODUCT_NAME", 
+                "QUANTITY", 
+                "UNIT_COST", 
+                "TOTAL_COST", 
+                "STATUS", 
+                "DELIVERY_DATE"
+            ]
