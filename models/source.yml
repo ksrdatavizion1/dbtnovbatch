@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: raw_data
+    schema : SF_SCHEMA
+    database: SNOWFLAKE_DBT_DATA
+    tables:
+      - name: CUST #logical 
+        identifier: CUSTOMER  #main table
+      - name : trans
+        identifier: sales_transactions
+      - name : order
+        identifier: orders
+      - name : scd2
+        identifier: SUPPLY_CHAIN_ORDERS
+  - name: prod_data
+    schema : PROD_SCH
+    database: SNOWFLAKE_DBT_DATA
+    tables:
+      - name: prod
+        identifier: PRODUCT

@@ -1,0 +1,1 @@
+select CUSTOMER_ID,FIRST_NAME,LAST_NAME from {{ ref('Product_cust') }}

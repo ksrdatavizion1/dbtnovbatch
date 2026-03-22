@@ -38,5 +38,19 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   my_new_project:
     # Applies to all files under models/example/
-    example:
+    raw:
       +materialized: table
+      +schema: RAW_SCHEMA
+      +database: DBT_LABS
+      +transient: false
+      +query_tag: DBT_NEW
+      incremental_append:   #modelname
+        +materialized: incremental
+        +incremental_strategy: append
+        +database: DBT_LABS_2
+        +schema : NEW_SCHEMA
+
+    silver:
+      +database: DBT_LABS
+      +materialized: view
+      +schema: SILVER_SCHEMA
