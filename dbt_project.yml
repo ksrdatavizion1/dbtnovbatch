@@ -64,4 +64,11 @@ seeds:
         country_name: varchar(100)
         region: varchar(100)
         currency: varchar(100)
-        
+        language: varchar(100)
+    country_internet:
+      +delimiter: '|'
+      +column_types:
+        country_code: varchar(100)
+        internet_users_millions: number
+        mobile_subscriptions_millions: number
+        sim_card_prefix: varchar(10)
