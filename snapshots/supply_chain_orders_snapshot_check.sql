@@ -6,9 +6,7 @@
             unique_key='ORDER_ID',
             strategy='timestamp',
             updated_at='UPDATED_AT',
-            hard_deletes = 'new_record',
-            snapshot_freshness = '2 days'
-        )
+            hard_deletes = 'new_record')
     }}
 
     select * from {{ source('raw_data', 'scd2') }}
