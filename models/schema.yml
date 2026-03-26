@@ -1,0 +1,91 @@
+version:  2
+
+sources:
+  - name: test_data
+    schema : SF_SCHEMA
+    database: SNOWFLAKE_DBT_DATA
+    tables: 
+      - name : Tel_cust
+        identifier: TELECOM_CUSTOMERS
+        columns:
+          - name: CUSTOMER_ID
+            tests:
+              - not_null
+              - unique 
+          - name : EMAIL
+            tests:
+              - not_null
+          - name : MOBILE_NUMBER
+            tests:
+              - unique:
+                  config:
+                    severity: warn
+          - name : GENDER
+            tests:
+              - accepted_values:
+                   arguments: 
+                    values: ['Male', 'Female']
+                    name: test_status_valid
+          
+      - name : tel_plan
+        identifier: TELECOM_PLANS
+        columns:
+          - name: CUSTOMER_ID
+            tests:
+              - relationships:
+                  arguments:
+                    to: source('test_data', 'Tel_cust') 
+                    field: CUSTOMER_ID
+                    name : rel_test
+              - unique 
+              - not_null
+          - name :  plan_id  
+            tests:
+              - not_null
+              - unique 
+models:
+  - name: tele_customer
+    columns:
+      - name: CUSTOMER_ID
+        tests:
+          - not_null
+          - unique
+
+      - name: EMAIL
+        tests:
+          - not_null
+          - validate_email_format
+
+      - name: MOBILE_NUMBER
+        tests:
+          - unique:
+              config:
+                severity: warn
+
+      - name: GENDER
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['Male', 'Female']
+      - name : AGE
+        tests: 
+          - value_between_range:
+              arguments:
+                min_value: 18
+                max_value: 30
+
+  - name: tele_plan
+    columns:
+      - name: CUSTOMER_ID
+        tests:
+          - relationships:
+              arguments: 
+                to: ref('tele_customer')
+                field: CUSTOMER_ID
+          - unique
+          - not_null
+
+      - name: plan_id
+        tests:
+          - not_null
+          - unique

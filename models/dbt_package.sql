@@ -1,0 +1,1 @@
+select {{ dbt_utils.star(from = source('raw_data', 'scd2'), quote_identifiers=False) }} from {{ source('raw_data', 'scd2') }}
