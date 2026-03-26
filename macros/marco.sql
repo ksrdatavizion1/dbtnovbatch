@@ -19,3 +19,4 @@
         ELSE 'Q4'
     END
 {% endmacro %}
+

@@ -17,6 +17,7 @@ sources:
         identifier: TELECOM_CUSTOMERS
       - name : tel_plan
         identifier: TELECOM_PLANS
+      - name : SALES_ORDERS
   - name: prod_data
     schema : PROD_SCH
     database: SNOWFLAKE_DBT_DATA

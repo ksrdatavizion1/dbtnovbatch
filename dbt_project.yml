@@ -42,6 +42,17 @@ models:
       +database: DBT_LABS
       +transient: false
       +query_tag: DBT_NEW
+      +pre-hook: 
+        - >
+          INSERT INTO SNOWFLAKE_DBT_DATA.SF_SCHEMA.MODEL_RUN_AUDIT (model_name, execution_time_start)
+          VALUES ('{{ model.name }}', CURRENT_TIMESTAMP);
+      +post-hook: 
+        - >
+          UPDATE SNOWFLAKE_DBT_DATA.SF_SCHEMA.MODEL_RUN_AUDIT
+          SET execution_time_end = CURRENT_TIMESTAMP,
+              row_count = (SELECT COUNT(*) FROM {{ this }})
+          WHERE model_name = '{{ model.name }}'
+            AND execution_time_end IS NULL;
       incremental_append: #modelname
         +materialized: incremental
         +incremental_strategy: append
@@ -54,6 +65,7 @@ models:
       +schema: SILVER_SCHEMA
 
 seeds:
+
   my_new_project:
     +enabled: true
     +schema: SILVER_SCHEMA
@@ -72,3 +84,12 @@ seeds:
         internet_users_millions: number
         mobile_subscriptions_millions: number
         sim_card_prefix: varchar(10)
+
+vars:   #global variables
+  name : ksr
+  database_name : SNOWFLAKE_DBT_DATA
+  schema_name :  SF_SCHEMA
+  customer_state :  karnataka
+  plan_type : Prepaid
+  reporting_year : 2023
+  reporting_month : 2
